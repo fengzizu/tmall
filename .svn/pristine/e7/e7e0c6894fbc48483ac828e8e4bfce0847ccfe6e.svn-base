@@ -1,0 +1,85 @@
+package com.kjlink.web;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.controller.UserController;
+
+/**
+ * Servlet implementation class RegisterServlet
+ */
+public class RegisterServlet1 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public RegisterServlet1() {
+		
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		System.out.println("This is a doGet method.");
+	
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		//doGet(request, response);
+		
+//		RequestDispatcher rd = request.getRequestDispatcher("/success.jsp");
+//		rd.forward(request, response);
+		
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		String idStr = request.getParameter("id");
+		Integer id = Integer.valueOf(idStr);
+		
+		String name = request.getParameter("name");
+		String password = request.getParameter("password");
+		String gander = request.getParameter("gander");
+		String birthPlace = request.getParameter("birthPlace");
+		String[] hobbies = request.getParameterValues("interest");
+		
+		String hobby = "";
+		for(int i = 0;i < hobbies.length;i++) {
+			if(i < hobbies.length - 1) {
+				hobby += hobbies[i] + ",";
+			}else {
+				hobby += hobbies[i];
+			}
+		}
+		
+		User user = new User(id,name,password,gander,birthPlace,hobby);
+
+		List<User> userList = new ArrayList<User>();
+		userList.add(user);
+		
+		UserController userController = new UserController();
+		
+		userController.addUser(userList);
+		List<User> uList = userController.showUser();
+		request.setAttribute("uList", uList);
+		
+		request.getRequestDispatcher("/success.jsp").forward(request, response);
+	}
+}

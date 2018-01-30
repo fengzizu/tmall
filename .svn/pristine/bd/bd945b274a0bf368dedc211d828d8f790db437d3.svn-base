@@ -1,0 +1,48 @@
+package com.kjlink.privilege.bean;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+//购物车实体
+
+public class Cart {
+	// key 商品的id value 购物向
+	private Map<Integer, CartItem> map = new HashMap<Integer, CartItem>();
+	private Integer total = 0;
+
+	// 获取所有的购物项
+	public Collection<CartItem> getItems() {
+
+		return map.values();
+
+	}
+
+	// 添加商品到购物车
+	public void add2Cart(CartItem item) {
+		// 先判断购物车里面有没有该商品
+		Integer pid = item.getProduct().getPid();
+		if (map.containsKey(pid)) {
+			// 如果包含这个pid就直接将数量加1；
+			CartItem oitem = map.get(pid);
+			oitem.setCount(oitem.getCount() + item.getCount());
+
+		} else {
+			//如果不包含该该商品的pid就直接将商品添加到购物车
+			map.put(pid, item);
+
+		}
+		total+=item.getSubtotal();
+
+	}
+
+	public Integer getTotal() {
+		return total;
+	}
+
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
+	
+
+}

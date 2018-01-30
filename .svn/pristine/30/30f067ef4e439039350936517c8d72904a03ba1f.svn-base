@@ -1,0 +1,35 @@
+package com.kjlink.privilege.controller;
+
+import java.util.List;
+
+import com.kjlink.privilege.bean.Role;
+import com.kjlink.privilege.service.RoleService;
+import com.kjlink.privilege.service.impl.RoleServiceImpl;
+
+public class RoleController {
+
+	private RoleService roleService = new RoleServiceImpl();
+	
+	public void showRoleByPatternName(String patternName) {
+		
+		if(patternName != null && !"".equals(patternName.trim())) {
+			
+			List<Role> roleList = this.roleService.findRoleByPatternName(patternName);
+			
+			for(Role role : roleList) {
+				
+				System.out.println("Role Info : " + role.getId() + "\t" + role.getName());
+			}
+		}
+	}
+	
+	public void addRole(List<Role> roleList) {
+		
+		this.roleService.saveRole(roleList);
+	}
+	
+	public void clearRoleByIndex(int index) {
+		
+		this.roleService.removeRoleByIndex(index);
+	}
+}

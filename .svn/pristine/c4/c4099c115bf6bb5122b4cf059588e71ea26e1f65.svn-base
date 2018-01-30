@@ -1,0 +1,69 @@
+<%@ page language="java" contentType="text/html; charset=utf8"
+    pageEncoding="utf8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=gb2312">
+<title>标题</title>
+</head>
+
+<body style="background:lightgreen">
+<br>
+<center>Welcome to vist this page.
+
+<table style="border:1px red dashed">
+<br><br>
+<form name="registerForm" method="POST" action="register.action">
+	<tr>
+		<td>nickName:</td>
+		<td><input type="text" name="nickName"/></td>
+	</tr>
+	<tr>
+		<td>name:</td>
+		<td><input type="text" name="name"/></td>
+	</tr>
+	<tr>
+		<td>password:</td>
+		<td><input type="password" name="password"/></td>
+	</tr>
+	<tr>
+		<td>gander:</td>
+		<td>man<input type="radio" name="gander" value="male">woman<input type="radio" name="gander" value="female"/></td>
+	</tr>
+	<tr>
+		<td>birthPlace:</td>
+		<td>
+			<select name="birthPlace">
+				<option value="AnHui">AnHui</option>
+				<option value="BeiJing">BeiJing</option>
+				<option value="ShangHai">ShangHai</option>
+				<option value="ShanXi">ShanXi</option>
+				<option value="XinJiang">XinJiang</option>
+				<option value="GuangXi">GuangXi</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>hobby:</td>
+		<td>
+			music<input type="checkbox" name="interest" value="music"/>
+			jog<input type="checkbox" name="interest" value="jog"/>
+			swimming<input type="checkbox" name="interest" value="swimming"/>
+			fishing<input type="checkbox" name="interest" value="fishing"/>
+		</td>
+	</tr>
+	<tr>
+		<td>selfIntroduce：</td>
+		<td><textarea name="selfIntroduce" rows="4" cols="19"></textarea></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" value="submit"/></td>
+	</tr>
+</form>
+</table>
+</center>
+</body>
+
+</html>

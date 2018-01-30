@@ -1,0 +1,159 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    
+    <title>My JSP 'index.jsp' starting page</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+	
+	
+	
+  </head>
+  
+  <body>
+  
+   <!--header-->
+	<div class="header">
+		<div class="header-top">
+			<div class="container">	
+			<div class="header-top-in">			
+				<div class="logo">
+					<a href="index.jsp"><img src="images/logo.png" alt=" " ></a>
+				</div>
+				<div class="header-in">
+					<ul class="icon1 sub-icon1">
+							<li  ><a href="wishlist.html">WISH LIST (0)</a> </li>
+							<li  ><a href="login.jsp">  MY ACCOUNT</a></li>
+							<li ><a href="#" > SHOPPING CART</a></li>
+							<li > <a href="checkout.html" >CHECKOUT</a> </li>	
+							<li><div class="cart">
+									<a href="#" class="cart-in"> </a>
+									<span> 0</span>
+								</div>
+								<ul class="sub-icon1 list">
+						  <h3>Recently added items(2)</h3>
+						  <div class="shopping_cart">
+							  <div class="cart_box">
+							   	 <div class="message">
+							   	     <div class="alert-close"> </div> 
+					                <div class="list_img"><img src="images/14.jpg" class="img-responsive" alt=""></div>
+								    <div class="list_desc"><h4><a href="#">velit esse molestie</a></h4>1 x<span class="actual">
+		                             $12.00</span></div>
+		                              <div class="clearfix"></div>
+	                              </div>
+	                            </div>
+	                            <div class="cart_box1">
+								  <div class="message1">
+							   	     <div class="alert-close1"> </div> 
+					                <div class="list_img"><img src="images/15.jpg" class="img-responsive" alt=""></div>
+								    <div class="list_desc"><h4><a href="#">velit esse molestie</a></h4>1 x<span class="actual">
+		                             $12.00</span></div>
+		                              <div class="clearfix"></div>
+	                              </div>
+	                            </div>
+	                        </div>
+	                        <div class="total">
+	                        	<div class="total_left">CartSubtotal : </div>
+	                        	<div class="total_right">$250.00</div>
+	                        	<div class="clearfix"> </div>
+	                        </div>
+                            <div class="login_buttons">
+							  <div class="check_button"><a href="checkout.html">Check out</a></div>
+							  <div class="clearfix"></div>
+						    </div>
+					      <div class="clearfix"></div>
+						</ul>
+							</li>
+						</ul>
+				</div>
+				<div class="clearfix"> </div>
+				
+				<div style="float:right;">
+					<font color=white >
+					Welcome: ${user.username } 
+					<a href="logout.action">Logout</a> 
+					</font>
+				</div>
+				
+			</div>
+			</div>
+		</div>
+		
+		<div class="header-bottom">
+		<div class="container">
+			<div class="h_menu4">
+				<a class="toggleMenu" href="#">Menu</a>
+					<ul class="nav">
+						<li class="active"><a href="index.jsp"><i> </i>Desktops</a></li>
+						
+						<c:forEach items="${guideList}" var="guide">
+							<li><a href="#" onclick="linkMyUrl(${guide.categoryId });" >${guide.categoryName}</a>
+								<ul class="drop">
+									<c:forEach items="${guide.childrenCategoryList }" var="category">
+										<li><a href="${pageContext.request.contextPath}/productservlet.action?categoryid=${category.categoryId }" >${category.categoryName}</a></li>
+									</c:forEach>
+								</ul>
+							</li>
+						</c:forEach>
+						
+						<li ><a href="#" >Laptops & Notebooks</a>
+							<ul class="drop">
+								<li><a href="products.jsp">Sony(2)</a></li>
+								<li><a href="products.jsp">Android(4)</a></li>
+								<li><a href="products.jsp">Apple(7)</a></li>
+								<li><a href="products.jsp">Acer(53)</a></li>
+								<li><a href="products.jsp">HP(78)</a></li>
+								<li><a href="products.jsp">Intel(5)</a></li>
+							</ul>
+						</li> 						
+					</ul>
+				
+				<script type="text/javascript" src="js/nav.js"></script>
+			</div>
+		</div>
+		</div>
+		<div class="header-bottom-in">
+			<div class="container">
+			<div class="header-bottom-on">
+			<p class="wel"><a href="MyOrderServlet">Welcome visitor you can login or create an account.</a></p>
+			<div class="header-can">
+				<ul class="social-in">
+						<li><a href="#"><i> </i></a></li>
+						<li><a href="#"><i class="facebook"> </i></a></li>
+						<li><a href="#"><i class="twitter"> </i></a></li>					
+						<li><a href="#"><i class="skype"> </i></a></li>
+					</ul>	
+					<div class="down-top">		
+							<select class="in-drop">
+							  <option value="Dollars" class="in-of">Dollars</option>
+							  <option value="Euro" class="in-of">Euro</option>
+							  <option value="Yen" class="in-of">Yen</option>
+							</select>
+					 </div>
+					<div class="search">
+						<form>
+							<input type="text" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}" >
+							<input type="submit" value="">
+						</form>
+					</div>
+
+					<div class="clearfix"> </div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		</div>
+		</div>
+	</div>
+   
+   <!--header  -end-->
+   
+  </body>
+</html>

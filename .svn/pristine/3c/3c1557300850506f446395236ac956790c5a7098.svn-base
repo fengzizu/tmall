@@ -1,0 +1,85 @@
+package com.kjlink.privilege.controller;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.service.UserService;
+import com.kjlink.privilege.service.impl.UserServiceImpl;
+
+public class UserController {
+
+	private UserService userService = new UserServiceImpl();
+	
+	/**
+	 * 根据提供的名称,查找相应的用户
+	 * @param patternName
+	 */
+	public void showUserByPatternName(String patternName) {
+		
+		/* 对关键字进行合法性验证 */
+		if(patternName != null && !"".equals(patternName.trim())) {
+			
+			List<User> userList = this.userService.findUserByPatternName(patternName);
+			
+			for(User user : userList) {
+				
+				System.out.println("User Info : " + user.getId() + "\t" + user.getName());
+			}
+		}
+	}
+	
+	public void addUser(List<User> userList) {
+		
+		this.userService.saveUser(userList);
+	}
+	
+	public List<User> showUser(){
+		
+		List<User> userList = this.userService.findUser();
+		
+		return userList;
+	}
+	
+	/**
+	 * 根据输入的用户名，，查找相应的用户
+	 * @return 
+	 */
+	public List<User> showUserByUserId(int userId){
+		
+		return this.userService.findUserByUserId(userId);
+	}
+	
+	/**
+	 * 用户登录验证
+	 */
+	public int showUserPassword(String username, String password, int num) {
+		
+		num = this.userService.findUserPassword(username, password);
+		
+		return num;
+	}
+	
+	/**
+	 * 根据用户名关键字删除用户
+	 * @return 
+	 */
+	public void clearUserByIndex(int index) {
+		
+		this.userService.removeUserByIndex(index);
+	}
+	
+	/**
+	 * 根据id删除用户
+	 * @param id
+	 */
+	public void clearUser(int id) {
+		
+		this.userService.removeUser(id);
+	}
+	
+	public int updateUser(User user) throws SQLException{
+		
+		return this.userService.updateUser(user);
+	}
+}

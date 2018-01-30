@@ -1,0 +1,28 @@
+package com.kjlink.privilege.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.service.UserService;
+
+@Controller
+public class UserController {
+	@Autowired
+	private UserService userService;
+
+/*	@RequestMapping("/delete.action")
+	public void deleteUser(@RequestParam(value = "id") Integer id) {
+		userService.removeUserById(id);
+	}*/
+
+	@RequestMapping("/register.action")
+	public String insertUser(User user) {
+		//user.setHobby(hobby);,@RequestParam(value="interest") String[] hobby
+		userService.addUser(user);
+		return "registerSuccess";
+	}
+
+}

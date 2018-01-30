@@ -1,0 +1,53 @@
+package com.kjlink.privilege.service.impl;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.Category;
+import com.kjlink.privilege.dao.CategoryDao;
+import com.kjlink.privilege.dao.impl.CategoryDaoImpl;
+import com.kjlink.privilege.service.CategoryService;
+import com.kjlink.privilege.util.DBContext;
+
+public class CategoryServiceImpl implements CategoryService {
+
+	CategoryDao categoryDao = new CategoryDaoImpl();
+
+	@Override
+	public List<Category> showGuide() {
+
+		try {
+			return this.categoryDao.showGuide();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBContext.close(DBContext.getConnection(), null, null);
+		}
+		return null;
+	}
+
+	@Override
+	public int addCategory(String oneGrade, String[] array2) {
+		CategoryDao cd = new CategoryDaoImpl();
+		int one = -1;
+		int two = -1;
+
+		try {
+			DBContext.beginTransaction();
+			one = cd.addOneGrade(oneGrade);
+			System.out.println("第一个等级返回值"+one);
+			if (one >= 0) {
+				two = cd.addTwoGrade(one, array2);
+
+				DBContext.submitTransaction();
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return two;
+	}
+
+}

@@ -1,0 +1,79 @@
+package com.kjlink.privilege.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kjlink.privilege.bean.Role;
+import com.kjlink.privilege.dao.RoleDao;
+import com.kjlink.privilege.util.DBContext;
+
+public class RoleDaoImpl implements RoleDao {
+
+	public List<Role> selectRoleByPatternName(String patternName) throws SQLException{
+	
+		/* 获取数据库连接对象 */
+		Connection conn = DBContext.getConnection();
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		List<Role> roleList = new ArrayList<Role>(10);
+	
+		String sql = "SELECT role_id id,role_name NAME FROM role WHERE role_name LIKE ?;";
+		
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, "%" + patternName + "%");
+		
+		rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			
+			Role role = new Role(rs.getInt(1),rs.getString(2));
+			roleList.add(role);
+		}
+		//DBContext.close(rs, ps, conn);
+		return roleList;
+	}
+	
+	public int insertRole(Role role) throws SQLException {
+		
+		Connection conn = DBContext.getConnection();
+		
+		String sql= "INSERT INTO role(role_name) VALUES ( ? )";
+		
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, role.getName());
+		
+		int returnVal = ps.executeUpdate();
+		
+		return returnVal;
+	}
+	
+	/**
+	 * 根据关键字删除角色
+	 */
+	public void deleteRoleByIndex(int index) throws SQLException{
+
+		Connection conn = DBContext.getConnection();
+		
+		String sql = "DELETE FROM role WHERE role_id = ?";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, index);
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		DBContext.close(DBContext.getConnection(), null, ps);
+	}
+}

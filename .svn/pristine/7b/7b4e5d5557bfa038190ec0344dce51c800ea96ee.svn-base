@@ -1,0 +1,15 @@
+package com.kjlink.privilege.dao;
+
+import java.sql.SQLException;
+
+import com.kjlink.privilege.bean.Order;
+
+public interface OrderDao {
+
+	/**
+	 * 提交到订单表
+	 * @param order
+	 * @throws SQLException
+	 */
+	public void insertOrder(Order order) throws SQLException;
+}

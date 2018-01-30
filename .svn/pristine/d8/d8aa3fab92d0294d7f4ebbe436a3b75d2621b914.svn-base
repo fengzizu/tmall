@@ -1,0 +1,12 @@
+package com.kjlink.privilege.service;
+
+import com.kjlink.privilege.bean.User;
+
+public interface UserService {
+
+	/**
+	 * 用户登录验证
+	 */
+	public User findUserPassword(String username, String password);
+	
+}

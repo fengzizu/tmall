@@ -1,0 +1,53 @@
+package com.kjlink.privilege.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.dao.UserDao;
+import com.kjlink.privilege.util.DBContext;
+
+public class UserDaoImpl implements UserDao {
+
+	/**
+	 * 用户登录验证
+	 */
+	public User selectUserPassword(String username, String password) {
+		
+		/* 获取数据库连接对象 */
+		Connection conn = DBContext.getConnection();
+		
+		User user = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+				
+		String sql = "SELECT * FROM USER WHERE user_name = '"+ username +"' AND PASSWORD = '"+ password +"' ";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+
+				//查到结果时取出username和password
+				user = new User();
+				
+				//不传递参数
+				/*user.setName(rs.getString("user_name"));
+				user.setPassword(rs.getString("password"));
+				user.setBirthPlace(rs.getString("birth_place"));
+				user.setGander(rs.getString("gander"));
+				user.setHobby(rs.getString("hobby"));*/
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}finally {
+			//执行完关闭数据库
+			DBContext.close(conn, rs, ps);
+		}
+		return user;
+	}
+}

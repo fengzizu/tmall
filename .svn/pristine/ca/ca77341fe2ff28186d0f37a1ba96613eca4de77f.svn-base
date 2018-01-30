@@ -1,0 +1,52 @@
+package com.kjlink.web;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.kjlink.privilege.bean.Product;
+import com.kjlink.privilege.service.ProductService;
+import com.kjlink.privilege.service.impl.ProductServiceImpl;
+
+/**
+ * Servlet implementation class ProductServlet
+ */
+public class ProductServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ProductServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//String categoryid=request.getParameter(categoryid);//这句有待商量,xml文件还没配置
+		Integer categoryid=1;
+		
+		//select pid,pname,price,pimage,categoryid where categoryid=?and categryid=?
+		ProductService productService=new ProductServiceImpl();
+		List<Product> productlist=productService.findProductByCategory(categoryid);
+		request.setAttribute("productlist", productlist);
+		request.getRequestDispatcher("products.jsp").forward(request, response);
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

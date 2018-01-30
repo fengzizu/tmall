@@ -1,0 +1,48 @@
+package com.kjlink.privilege.controller;
+
+import java.util.List;
+
+import com.kjlink.privilege.bean.UserRole;
+import com.kjlink.privilege.service.UserRoleService;
+import com.kjlink.privilege.service.impl.UserRoleServiceImpl;
+
+public class UserRoleController {
+
+	private UserRoleService userRoleService = new UserRoleServiceImpl();
+	public static int temp;
+	
+	public static int getTemp() {
+		return temp;
+	}
+
+	public static void setTemp(int temp) {
+		UserRoleController.temp = temp;
+	}
+
+	@SuppressWarnings("static-access")
+	public void showUserIdByIndex(int index) {
+
+		if(index != 0) {
+			
+			List<UserRole> userList = this.userRoleService.findUserIdByIndex(index);
+			
+			for(UserRole userRole : userList) {
+				
+				System.out.println("UserId Info : " + userRole.getId());
+				
+				UserRoleController userRoleController = new UserRoleController();
+				userRoleController.setTemp(userRole.getId()); 
+			}
+		}
+	}
+
+	/**
+	 * 删除角色表中角色的同时删除用户表中有该角色的用户
+	 * @return 
+	 */
+	public void clearUserRoleByIndex(int index) {
+		
+		index = temp;
+		this.userRoleService.removeUserRoleByIndex(index);
+	}
+}

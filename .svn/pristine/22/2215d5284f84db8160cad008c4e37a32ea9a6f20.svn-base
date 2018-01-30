@@ -1,0 +1,76 @@
+package com.kjlink.privilege.bean;
+
+/**
+ * 用户实体类
+ * @author liuxy
+ *
+ */
+public class User {
+
+	private Integer id;
+	
+	private String name;
+	
+	private String password;
+	
+	private String gander;
+	
+	private String birthPlace;
+	
+	private String hobby;
+	
+	@Override
+	public String toString() {
+		return "User [name=" + name + ", password=" + password + ", gander=" + gander + ", birthPlace=" + birthPlace
+				+ ", hobby=" + hobby + "]";
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getGander() {
+		return gander;
+	}
+
+	public void setGander(String gander) {
+		this.gander = gander;
+	}
+
+	public String getBirthPlace() {
+		return birthPlace;
+	}
+
+	public void setBirthPlace(String birthPlace) {
+		this.birthPlace = birthPlace;
+	}
+
+	public String getHobby() {
+		return hobby;
+	}
+
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
+	}
+
+}

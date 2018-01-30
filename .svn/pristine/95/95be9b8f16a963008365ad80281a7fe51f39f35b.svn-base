@@ -1,0 +1,83 @@
+package com.kjlink.web;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.kjlink.privilege.bean.Cart;
+import com.kjlink.privilege.bean.Order;
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.service.OrderService;
+import com.kjlink.privilege.service.impl.OrderServiceImpl;
+
+/**
+ * Servlet implementation class SubmitOrderServlet
+ */
+public class SubmitOrderServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public SubmitOrderServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String oid = request.getParameter("oid");
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		Date time = null;
+		try {
+			time = sdf.parse(request.getParameter("time"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        System.out.println(time);
+        
+        Double total = Double.parseDouble(request.getParameter("total"));
+        Integer state = Integer.parseInt(request.getParameter("state"));
+        state = 1;
+        
+        User user = (User) request.getSession().getAttribute("user");
+        Integer uid = user.getId();
+        
+        String cname = request.getParameter("cname");
+        String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
+        
+        Order order = new Order(oid, time, total, state, cname, address, phone, uid);
+        OrderService orderService = new OrderServiceImpl();
+        List<Order> orderList = new ArrayList<Order>();
+		
+        orderList.add(order);
+		orderService.addOrder(order);
+		
+		Cart cart=(Cart)request.getSession().getAttribute("cart");
+		cart.clearCart();
+		
+		request.getRequestDispatcher("insertsuccess.jsp").forward(request, response);
+	}
+
+}

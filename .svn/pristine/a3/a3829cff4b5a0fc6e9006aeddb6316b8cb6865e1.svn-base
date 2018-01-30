@@ -1,0 +1,121 @@
+package com.kjlink.privilege.dao.impl;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+
+import com.kjlink.privilege.bean.Product;
+import com.kjlink.privilege.dao.ProductDao;
+import com.kjlink.privilege.util.DBContext;
+import com.kjlink.privilege.util.DBUpdate;
+
+public class ProductDaoImpl implements ProductDao {
+	
+	/**
+	 * 从数据库查询最新商品
+	 */
+	@Override
+	public List<Product> findNewProduct() throws SQLException{
+		
+		List<Product> list=new ArrayList<Product>();
+		String sql="select pid,pname,price,purchase_price,pimage,pdescribe,categoryid,brand,shelftime from product order by shelftime desc limit 4 "; 
+		ResultSet rs=DBUpdate.query(sql);
+		while(rs.next()) {
+			Product product =new Product(rs.getInt("pid"),rs.getString("pname"),rs.getInt("price"),rs.getInt("purchase_price"),rs.getString("pimage"),rs.getString("pdescribe"),rs.getInt("categoryid"),rs.getString("brand"),rs.getDate("shelftime"));
+			list.add(product);
+		}
+		DBContext.close(null, rs, null);
+		return list;
+	}
+	
+
+	
+	/**
+	 * 插入商品
+	 */
+	@Override
+	public void insertProduct(Product product) throws SQLException {
+		String sql="insert into product (pname,price,purchase_Price,pimage,pdescribe,categoryid,brand,shelftime,color,size,quality)values(?,?,?,?,?,?,?,?,?,?,?)";
+		DBUpdate.update(sql, product.getPname(), product.getPrice(), product.getPurchasePrice(), product.getPimage(), product.getPdescribe(), product.getCategoryid(), product.getBrand(), product.getShelftime(), product.getColor(), product.getSize(), product.getQuality());
+	
+
+	}
+
+
+
+	@Override
+	public List<Product> findProductByCategory(Integer categoryid) throws SQLException {
+		
+		List<Product> list=new ArrayList<Product>();
+		String sql="SELECT pid,pname,price,pimage FROM product WHERE categoryid=?";
+		ResultSet rs=DBUpdate.query(sql, categoryid); 
+		while(rs.next()) {
+			Product product =new Product(rs.getInt("pid"), rs.getString("pname"), rs.getInt("price"), rs.getString("pimage"));
+			list.add(product);
+		}
+		DBContext.close(null, rs, null);
+		return list;
+	}
+
+
+
+	/**
+	 * 后台管理商品信息
+	 * 查询所有商品信息
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Product> selectProductsManage() throws SQLException{ 
+		
+		int pageSize = 5;//定义每页显示的行数
+		
+        StringBuffer buffer = new StringBuffer("SELECT pid, pname, price, purchase_price, pimage,"
+        		+ " pdescribe, category.`categoryname`, brand, shelftime, color, size, quality"
+        		+ " FROM product INNER JOIN category ON product.`categoryid` = category.`categoryid` LIMIT");
+
+        buffer.append(" 0, '"+ pageSize +"'");
+        
+        //对buffer进行修改，第一个参数是去除“ ' ”（单引号）的意思,第二个是不加任何字符
+        String sql = buffer.toString().replace("'", "");
+
+		List<Product> productList = new ArrayList<Product>();
+		
+		ResultSet rs = DBUpdate.query(sql);
+
+		while(rs.next()) {
+			
+			Integer pid = rs.getInt(1);
+			String pname = rs.getString(2);
+			Integer price = rs.getInt(3);
+			Integer purchasePrice = rs.getInt(4);
+			String pimage = rs.getString(5);
+			String pdescribe = rs.getString(6);
+			String categoryname = rs.getString(7);
+			String brand = rs.getString(8);
+			Date shelftime = rs.getDate(9);
+			String color = rs.getString(10);
+			String size = rs.getString(11);
+			String quality = rs.getString(12);
+			
+			Product product = new Product(pid, pname, price, purchasePrice, pimage, pdescribe, categoryname, brand, shelftime, color, size, quality);
+			
+			productList.add(product);
+		}
+		return productList;
+	}
+	
+	@Override
+	public Product lookProductDetail(String pid) throws SQLException {
+        Connection conn = DBContext.getConnection();
+        String  sql ="select * from product where pid =?";
+		QueryRunner qr =new  QueryRunner();
+		Object[] param =  {pid}; 
+		return  qr.query(conn, sql, param, new BeanHandler<Product>(Product.class));
+	}
+}

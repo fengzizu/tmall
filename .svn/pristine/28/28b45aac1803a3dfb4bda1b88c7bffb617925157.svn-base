@@ -1,0 +1,50 @@
+package com.kjlink.privilege.bean;
+
+//购物车项
+public class CartItem {
+	// 含有三个属性
+	// 商品，商品数量，商品小计
+	private Product product;
+	private Integer count;
+	private Integer subtotal;
+
+	public CartItem() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public CartItem(Product product, Integer count) {
+		super();
+		this.product = product;
+		this.count = count;
+		
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public Integer getSubtotal() {
+		return count*product.getPrice();
+	}
+
+	
+
+	@Override
+	public String toString() {
+		return "CartItem [product=" + product + ", count=" + count + ", subtotal=" + subtotal + "]";
+	}
+
+}

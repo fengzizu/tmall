@@ -1,0 +1,20 @@
+package com.kjlink.privilege.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.Role;
+
+public interface RoleDao {
+
+	/**
+	 * 根据输入的角色名关键字进行模糊查询，返回符合的角色集合
+	 * @param patternName
+	 * @return
+	 */
+	public List<Role> selectRoleByPatternName(String patternName) throws SQLException;
+	
+	public int insertRole(Role role) throws SQLException;
+	
+	public void deleteRoleByIndex(int index) throws SQLException;
+}

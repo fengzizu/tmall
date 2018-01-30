@@ -1,0 +1,264 @@
+package com.kjlink.privilege.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.dao.UserDao;
+import com.kjlink.privilege.util.DBContext;
+
+public class UserDaoImpl implements UserDao {
+
+	/**
+	 * 根据输入的用户名，，查找相应的用户
+	 */
+	public List<User> selectUserByPatternName(String patternName) throws SQLException{
+		
+		/* 获取数据库连接对象 */
+		Connection conn = DBContext.getConnection();
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		List<User> userList = new ArrayList<User>(10);
+		
+		String sql = "SELECT user_id id,user_name NAME FROM USER WHERE user_name LIKE ?;";
+		
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, "%" + patternName + "%");
+		rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			
+			User user = new User(rs.getInt(1),rs.getString(2));
+			userList.add(user);
+			
+		}
+		DBContext.close(conn, rs, ps);
+		return userList;
+	}
+	
+	/**
+	 * 根据输入的用户名，，查找相应的用户
+	 * @return 
+	 */
+	public List<User> selectUserByUserId(int userId) throws SQLException{
+		
+		/* 获取数据库连接对象 */
+		Connection conn = DBContext.getConnection();
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		List<User> userList = new ArrayList<User>(10);
+		
+		String sql = "SELECT * FROM USER WHERE user_id = ? ";
+		
+		ps = conn.prepareStatement(sql);
+		ps.setInt(1, userId);
+		rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			
+			User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+			userList.add(user);
+			
+		}
+		//DBContext.close(rs, ps, conn);
+		return userList;
+	}
+	
+	public List<User> selectUser() throws SQLException{
+		/* 获取数据库连接对象 */
+		Connection conn = DBContext.getConnection();
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		List<User> userList = new ArrayList<User>(10);
+		
+		String sql = "SELECT user_id id,user_name NAME, PASSWORD, gander, birth_place, hobby FROM USER";
+		
+		ps = conn.prepareStatement(sql);
+		
+		rs = ps.executeQuery();
+		
+		while(rs.next()) {
+
+			Integer id = rs.getInt(1);
+			String name = rs.getString(2);
+			String password = rs.getString(3);
+			String gander = rs.getString(4);
+			String birthPlace = rs.getString(5);
+			String hobby = rs.getString(6);
+			
+			User user = new User(id,name,password,gander,birthPlace,hobby);
+			
+			userList.add(user);
+		}
+		
+		//DBContext.close(rs, ps, conn);
+		return userList;
+	}
+
+	/**
+	 * 用户登录验证
+	 */
+	public User selectUserPassword(String username, String password) {
+		
+		/* 获取数据库连接对象 */
+		Connection conn = DBContext.getConnection();
+		
+		User user = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+				
+		String sql = "SELECT * FROM USER WHERE user_name = '"+ username +"' AND PASSWORD = '"+ password +"' ";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+
+				//查到结果时取出username和password
+				user = new User();
+				
+				//不传递参数
+				/*user.setName(rs.getString("user_name"));
+				user.setPassword(rs.getString("password"));
+				user.setBirthPlace(rs.getString("birth_place"));
+				user.setGander(rs.getString("gander"));
+				user.setHobby(rs.getString("hobby"));*/
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}finally {
+			//执行完关闭数据库
+			DBContext.close(conn, rs, ps);
+		}
+		return user;
+	}
+	
+	/**
+	 * 插入新用户
+	 */
+	public int insertUser1(User user) throws SQLException{
+
+		Connection conn = DBContext.getConnection();
+		
+		String sql = "INSERT INTO USER(user_name) VALUES (?)";
+		
+		PreparedStatement ps = null;
+		
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, user.getName());
+		
+		int returnVal = ps.executeUpdate();
+		
+		// conn.setAutoCommit(false);
+		
+		return returnVal;
+	}
+	
+	/**
+	 * 插入新用户
+	 */
+	public int insertUser(User user) throws SQLException{
+
+		Connection conn = DBContext.getConnection();
+		
+		String sql = "INSERT INTO USER(user_name,password,gander,birth_place,hobby) VALUES(?,?,?,?,?);";
+		
+		PreparedStatement ps = null;
+		ps = conn.prepareStatement(sql);
+		
+		ps.setString(1, user.getName());
+		ps.setString(2, user.getPassword());
+		ps.setString(3, user.getGander());
+		ps.setString(4, user.getBirthPlace());
+		ps.setString(5, user.getHobby());
+		
+		int returnVal = ps.executeUpdate();
+		
+		// conn.setAutoCommit(false);
+		
+		return returnVal;
+	}
+	
+	/**
+	 * 根据关键字删除用户
+	 */
+	public void deleteUserByIndex(int index) throws SQLException{
+
+		Connection conn = DBContext.getConnection();
+		
+		String sql = "DELETE FROM USER WHERE user_id = ?";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, index);
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		DBContext.close(null, null, ps);
+	}
+	
+	/**
+	 * 根据id删除用户
+	 */
+	public void deleteUser(int id) throws SQLException {
+
+		Connection conn = DBContext.getConnection();
+		
+		String sql = "DELETE FROM USER WHERE user_id = ?";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		DBContext.close(null, null, ps);
+	}
+	
+	public int updateUser(User user) throws SQLException{
+
+		Connection conn = DBContext.getConnection();
+		PreparedStatement ps = null;
+		
+		String sql = "UPDATE USER SET user_name = ?, PASSWORD = ?, gander = ?,"
+				+ " birth_place = ?, hobby = ? WHERE user_id= ?"; 
+		
+		int count = 0;
+		
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, user.getName());
+		ps.setString(2, user.getPassword());
+		ps.setString(3, user.getGander());
+		ps.setString(4, user.getBirthPlace());
+		ps.setString(5, user.getHobby());
+		ps.setInt(6,user.getId());
+		ps.executeUpdate();
+		
+		DBContext.close(conn, null, ps);
+		return count;
+	}
+}

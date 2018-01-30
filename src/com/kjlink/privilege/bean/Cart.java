@@ -1,0 +1,69 @@
+package com.kjlink.privilege.bean;
+
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Cart {
+	
+	//存放CartItem的集合
+	private Map<Integer,CartItem> map=new LinkedHashMap<Integer,CartItem>();
+	
+	private double total;//总计
+	
+	//相当于cart对象中有一个cartItem的属性
+	public Collection<CartItem> getCartItem(){
+		return map.values();
+	}
+	
+	public double getTotal() {
+		return total;
+	}
+	public void setTotal(double total) {
+		this.total = total;
+	}
+	//购物车功能
+	//1.将购物项添加到购物车
+	public void addCart(CartItem cartItem) {
+		//判断购物车中是否已经存在该购物项
+		/*
+		 * 如果存在
+		 * 		数量增加
+		 * 		总计=总计+购物项小计
+		 * 
+		 * 如果不存在
+		 * 		增加购物项
+		 * 		总计=总计+购物项小计
+		 */
+		//获得商品pid
+		Integer pid=cartItem.getProduct().getPid();
+		
+		if(map.containsKey(pid)) {
+			//存在
+			CartItem oldCartItem=map.get(pid);
+			oldCartItem.setCount(oldCartItem.getCount()+cartItem.getCount());
+		}else {
+			//不存在
+			map.put(pid, cartItem);
+		}
+		//设置总计
+		total += cartItem.getSubtotal();
+		
+	}
+	//2.从购物车移除购物项
+	public void removeCart(Integer pid) {
+		//购物项移出购物车
+		CartItem cartItem=map.remove(pid);
+		//total减价格
+		total-=cartItem.getSubtotal();
+		
+	}
+	//3.清空购物车
+	public void clearCart() {
+		//清空集合
+		map.clear();
+		//将total回归到0
+		total=0;
+		
+	}
+}

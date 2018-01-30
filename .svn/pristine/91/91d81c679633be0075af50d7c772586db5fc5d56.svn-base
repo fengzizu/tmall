@@ -1,0 +1,44 @@
+package com.kjlink.privilege.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.User;
+
+public interface UserService {
+
+	/**
+	 * 根据提供的名称,查找相应的用户
+	 * @param patternName
+	 * @return
+	 */
+	public List<User> findUserByPatternName(String patternName);
+	
+	public List<User> findUser();
+	
+	/**
+	 * 根据输入的用户名，，查找相应的用户
+	 * @return 
+	 */
+	public List<User> findUserByUserId(int userId);
+	
+	/**
+	 * 用户登录验证
+	 */
+	public User findUserPassword(String username, String password) throws SQLException;
+	
+	/**
+	 * 保存新用户信息
+	 * @param userList
+	 */
+	public void saveUser(List<User> userList);
+	
+	/**
+	 * 根据用户名关键字删除用户
+	 */
+	public void removeUserByIndex(int index);
+	
+	public void removeUser(int id);
+	
+	public int updateUser(User user)throws SQLException;
+}

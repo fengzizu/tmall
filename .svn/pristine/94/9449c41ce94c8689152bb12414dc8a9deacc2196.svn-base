@@ -1,0 +1,73 @@
+package com.kjlink.privilege.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kjlink.privilege.bean.UserRole;
+import com.kjlink.privilege.dao.UserRoleDao;
+import com.kjlink.privilege.util.DBContext;
+
+public class UserRoleDaoImpl implements UserRoleDao {
+
+
+	PreparedStatement ps = null;
+	ResultSet rs = null;
+	
+	/**
+	 * 删除角色表中角色的同时删除用户表中有该角色的用户
+	 * @return 
+	 * @throws SQLException 
+	 */
+	public void deleteUserRoleByIndex(int index) throws SQLException {
+	
+		Connection conn = DBContext.getConnection();
+		
+		String sql = "DELETE FROM user_role WHERE user_id IN (SELECT t.uid FROM " + 
+				"	(SELECT user_id uid FROM user_role WHERE role_id = ? )t);";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setObject(1, index);
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		DBContext.close(null, null, ps);
+	}
+	
+	/**
+	 * 通过role_id查找对应的user_id
+	 * @param patternName
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<UserRole> selectUserIdByIndex(int index) throws SQLException{
+		
+		/* 获取数据库连接对象 */
+		Connection conn = DBContext.getConnection();
+		
+		List<UserRole> userRoleList = new ArrayList<UserRole>(100);
+	
+		String sql = "SELECT user_id FROM user_role WHERE role_id = ?";
+		
+		ps = conn.prepareStatement(sql);
+		ps.setInt(1,index);
+		rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			
+			UserRole userRole = new UserRole(rs.getInt(1));
+			userRoleList.add(userRole);
+		}
+		DBContext.close(null, rs, ps);
+		
+		return userRoleList;
+	}
+}

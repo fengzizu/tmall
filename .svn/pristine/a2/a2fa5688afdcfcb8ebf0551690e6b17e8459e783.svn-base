@@ -1,0 +1,35 @@
+package com.kjlink.privilege.service.impl;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kjlink.privilege.bean.Product;
+import com.kjlink.privilege.dao.ProductDao;
+import com.kjlink.privilege.dao.impl.ProductDaoImpl;
+import com.kjlink.privilege.service.ProductService;
+import com.kjlink.privilege.util.DBContext;
+
+public class ProductServiceImpl implements ProductService {
+	private ProductDao productDao=new ProductDaoImpl();
+	
+	
+	/**
+	 * 从数据库查询最新商品
+	 */
+	@Override
+	public List<Product> findNewProduct()  {
+		List<Product> list =new ArrayList<Product>();
+		
+		try {
+			list=this.productDao.findNewProduct();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			DBContext.close(DBContext.getConnection(), null, null);
+		}
+		
+		return list;
+	}
+
+}

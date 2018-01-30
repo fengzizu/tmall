@@ -1,0 +1,39 @@
+package com.kjlink.privilege.dao.impl;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.kjlink.privilege.bean.Order;
+import com.kjlink.privilege.dao.OrderDao;
+import com.kjlink.privilege.util.DBContext;
+
+public class OrderDaoImpl implements OrderDao{
+
+	/**
+	 * 提交到订单表
+	 * @param order
+	 * @throws SQLException
+	 */
+	public void insertOrder(Order order) throws SQLException {
+		
+		String sql = "INSERT INTO `order` (oid, `time`, total, state, user_id, cname, address, phone) " + 
+				" VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
+		
+		Connection conn = DBContext.getConnection();
+		PreparedStatement ps = null;
+		ps = conn.prepareStatement(sql);
+		
+		ps.setString(1, order.getOid());
+		ps.setDate(2, (Date) order.getTime());
+		ps.setDouble(3, order.getTotal());
+		ps.setInt(4, order.getState());
+		ps.setInt(5, order.getUid());
+		ps.setString(6, order.getCname());
+		ps.setString(7, order.getAddress());
+		ps.setString(8, order.getPhone());
+		
+		ps.executeUpdate();
+	}
+}

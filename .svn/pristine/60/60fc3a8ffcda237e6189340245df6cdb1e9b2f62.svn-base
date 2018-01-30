@@ -1,0 +1,70 @@
+package com.kjlink.web;
+
+import java.io.IOException; 
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.kjlink.privilege.bean.User; 
+import com.kjlink.privilege.service.UserService;
+import com.kjlink.privilege.service.impl.UserServiceImpl;
+
+/**
+ * Servlet implementation class UpdateUserServlet
+ */
+public class UpdateUserServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public UpdateUserServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*获取客户端请求url中的参数id*/
+		String userId = request.getParameter("id");
+		/*创建service层对象，并调用下层方法*/
+		UserService userService = new UserServiceImpl();
+		User user=userService.findOneUserById(Integer.parseInt(userId));
+		         
+		request.setAttribute("user", user);
+		request.getRequestDispatcher("/WEB-INF/jsp/updateUser.jsp").forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 
+		String name = request.getParameter("name"); 
+		String gander = request.getParameter("gander");
+		String birthPlace = request.getParameter("birthPlace");
+		String[] hobbies = request.getParameterValues("interest");
+
+		String hobby = "";
+		if(hobbies == null) {
+			request.getRequestDispatcher("register.jsp").forward(request, response);
+		}else {
+			for(int i = 0;i < hobbies.length;i++) {
+				if(i < hobbies.length - 1) {
+					hobby += hobbies[i] + ",";
+				}else {
+					hobby += hobbies[i];
+				}
+			}
+		} 
+		UserService userService = new UserServiceImpl(); 
+		userService.alterUser(name, gander, birthPlace, hobby); 
+		request.getRequestDispatcher("/WEB-INF/jsp/select.jsp").forward(request, response);
+		    
+	}
+
+}

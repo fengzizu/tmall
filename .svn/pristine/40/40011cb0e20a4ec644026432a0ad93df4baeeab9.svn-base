@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<form name="myform" action ="UpdateServlet" method="POST">
+
+         <table id="registerTable" border="1" width="800" height="50">
+		<tr>
+				<th>name</th>
+				<th>password</th>
+				<th>gander</th>
+				<th>birthPlace</th>
+				<th>hobby</th>
+			</tr>
+			<c:forEach items="${requestScope.userList }" var="user">
+			<tr>
+				<td><input value="${user.name }"></td>
+				<td><input value="${user.password }"></td>
+				<td><input value="${user.gander }"></td>
+				<td><input value="${user.birthPlace }"></td>
+				<td><input value="${user.hobby }"></td>
+					
+			</tr>
+			</c:forEach>
+</table>
+        <tr>
+            <td colspan="2"><input type = "submit" value = "update" /></td>          
+        </tr>
+    </table>
+    </form>

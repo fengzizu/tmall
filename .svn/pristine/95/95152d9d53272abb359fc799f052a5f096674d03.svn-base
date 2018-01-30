@@ -1,0 +1,138 @@
+<%@ page language="java" contentType="text/html; charset=utf8"
+    pageEncoding="utf8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=gb2312">
+<title>title</title>
+
+<script type="text/javascript" src="./js/jquery-3.2.1.js"></script>
+
+<script type="text/javascript">
+
+	/* 根据表单名称获取表单对象 */
+	function buttonOnClick(){
+
+		var registerForm = document.registerForm;
+		
+		var name = registerForm.name.value;
+		var password = registerForm.password.value;
+		var gander = registerForm.gander.value;
+		var birthPlace = registerForm.birthPlace.value;
+		
+		/* 复选框中的取值 */
+		var hobbyElements = registerForm.interest;
+		var hobby = "";
+		for(var i = 0;i < hobbyElements.length;i++){
+			if(hobbyElements[i].checked){
+				hobby += hobbyElements[i].value + ",";
+			}
+		}
+		hobby = hobby.substr(0, hobby.length - 1);
+		
+		var style = "border: 2px solid red;";
+		
+		/* 在前端进行判空，减轻服务器压力，防止用户空提交 */
+		if(name == "" || name == null){
+			confirm("name is null");
+			registerForm.name.style = style;
+		}
+		if(password == "" || password == null){
+			alert("password is null");
+			registerForm.password.style = style;
+		}
+		if(gander == "" || gander == null){
+			alert("gander is null");
+			registerForm.gander.style = style;
+		}
+		if(birthPlace == "" || birthPlace == null){
+			alert("birthPlace is null");
+			registerForm.birthPlace.style = style;
+		}
+
+		/* 创建AJAX的对象XMLHttpRequest */
+		var httpRequest = false;
+		
+		try{
+			httpRequest = new XMLHttpRequest();
+			
+		}catch(failed){
+			httpRequest = false;
+		}
+		
+		httpRequest.open("POST", "register.action", false);
+		httpRequest.setRequest.Header("Content-Type","application/x-www-form-urllencoded");
+		
+		var context = "&name = " + name + "&password = " + password + "&gander = " + gander + "&birthPlace = " + birthPlace + "&hobby = " + hobby;
+		httpRequest.send();
+		//alert(httpRequest);
+	}
+	
+</script>
+
+</head>
+
+<body style="background:lightgreen">
+<br>
+<center>Welcome to vist this page.
+<br>
+<table style="border:1px red dashed">
+<br>
+<form id="registerForm" name="registerForm" method="POST" action="register.action">
+	<tr>
+		<td>nickName:</td>
+		<td><input type="text" name="nickName"/></td>
+	</tr>
+	<tr>
+		<td>name:</td>
+		<td><input type="text" name="name"/></td>
+		<!-- 
+		value="Please input your name." onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
+		onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999"
+		 -->
+	</tr>
+	<tr>
+		<td>password:</td>
+		<td><input type="password" name="password"/></td>
+	</tr>
+	<tr>
+		<td>gander:</td>
+		<td>man<input type="radio" name="gander" value="male">woman<input type="radio" name="gander" value="female"/></td>
+	</tr>
+	<tr>
+		<td>birthPlace:</td>
+		<td>
+			<select name="birthPlace">
+				<option value="AnHui">AnHui</option>
+				<option value="BeiJing">BeiJing</option>
+				<option value="ShangHai">ShangHai</option>
+				<option value="ShanXi">ShanXi</option>
+				<option value="XinJiang">XinJiang</option>
+				<option value="GuangXi">GuangXi</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>hobby:</td>
+		<td>
+			music<input type="checkbox" name="interest" value="music"/>
+			jog<input type="checkbox" name="interest" value="jog"/>
+			swimming<input type="checkbox" name="interest" value="swimming"/>
+			fishing<input type="checkbox" name="interest" value="fishing"/>
+		</td>
+	</tr>
+	<tr>
+		<td>selfIntroduce：</td>
+		<td><textarea name="selfIntroduce" rows="4" cols="19"></textarea></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="button" value="submit" OnClick="buttonOnClick()"/></td>
+	</tr>
+</form>
+</table>
+</center>
+</body>
+
+</html>

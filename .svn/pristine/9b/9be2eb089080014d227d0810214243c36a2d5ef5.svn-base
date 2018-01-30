@@ -1,0 +1,77 @@
+package com.kjlink.privilege.util;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class DBUpdate {
+
+	public static Integer update(String sql, Object o) throws SQLException {
+
+		Connection conn = DBContext.getConnection();
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setObject(1, o);
+		int i = ps.executeUpdate();
+		return i;
+	}
+
+	public static Integer update(String sql, Object pname, Object price, Object purchasePrice, Object pimage,
+			Object pdescribe, Object categoryid, Object brand, Object shelftime, Object color, Object size,
+			Object quality) throws SQLException {
+
+		Connection conn = DBContext.getConnection();
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setObject(1, pname);
+		ps.setObject(2, price);
+		ps.setObject(3, purchasePrice);
+		ps.setObject(4, pimage);
+		ps.setObject(5, pdescribe);
+		ps.setObject(6, categoryid);
+		ps.setObject(7, brand);
+		ps.setObject(8, shelftime);
+		ps.setObject(9, color);
+		ps.setObject(10, size);
+		ps.setObject(11, quality);
+		Integer i = ps.executeUpdate();
+		return i;
+	}
+
+	public static Integer update(String sql, Object pname, Object price, Object purchasePrice,
+			Object pdescribe, Object categoryid, Object brand, Object color, Object size,
+			Object quality) throws SQLException {
+
+		Connection conn = DBContext.getConnection();
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setObject(1, pname);
+		ps.setObject(2, price);
+		ps.setObject(3, purchasePrice);
+		ps.setObject(4, pdescribe);
+		ps.setObject(5, categoryid);
+		ps.setObject(6, brand);
+		ps.setObject(7, color);
+		ps.setObject(8, size);
+		ps.setObject(9, quality);
+		ps.setObject(10, pname);
+		Integer i = ps.executeUpdate();
+		return i;
+	}
+
+	public static ResultSet query(String sql, Object o) throws SQLException {
+
+		Connection conn = DBContext.getConnection();
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setObject(1, o);
+		ResultSet rs = ps.executeQuery();
+		return rs;
+
+	}
+
+	public static ResultSet query(String sql) throws SQLException {
+
+		Connection conn = DBContext.getConnection();
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		return rs;
+	}
+}

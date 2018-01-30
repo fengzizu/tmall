@@ -1,0 +1,129 @@
+package com.kjlink.privilege.service.impl;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.dao.UserDao;
+import com.kjlink.privilege.dao.impl.UserDaoImpl;
+import com.kjlink.privilege.service.UserService;
+import com.kjlink.privilege.util.DBContext;
+
+public class UserServiceImpl implements UserService {
+
+	private UserDao userDao = new UserDaoImpl();
+	
+	/**
+	 * 根据提供的名称,查找相应的用户
+	 */
+	public List<User> findUserByPatternName(String patternName) {
+
+		try {
+			return this.userDao.selectUserByPatternName(patternName);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<User> findUser(){
+		
+		try {
+			return this.userDao.selectUser();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 根据输入的用户名，，查找相应的用户
+	 * @return 
+	 */
+	public List<User> findUserByUserId(int userId) {
+
+		try {
+			return this.userDao.selectUserByUserId(userId);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	/**
+	 * 用户登录验证
+	 * @throws SQLException 
+	 */
+	public User findUserPassword(String username, String password) throws SQLException{
+		
+		return this.userDao.selectUserPassword(username, password);
+	}
+	
+	/**
+	 * 保存新用户信息
+	 */
+	public void saveUser(List<User> userList) {
+
+		try {
+			/* 开启数据库事务，保证要么全部成功，要么全部失败 */
+			DBContext.beginTransaction();
+			
+			for(User user : userList) {
+				
+				this.userDao.insertUser(user);
+			}
+			
+			/* 提交事务 */
+			DBContext.submitTransaction();
+			
+			
+		} catch (SQLException e) {
+
+			/* 回滚事务 */
+			try {
+				DBContext.rollback();
+			} catch (SQLException e1) {
+				
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			DBContext.close(DBContext.getConnection(), null, null);
+		}
+	}
+	
+	/**
+	 * 根据关键字删除用户
+	 */
+	public void removeUserByIndex(int index) {
+		
+		try {
+			this.userDao.deleteUserByIndex(index);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 根据id删除用户
+	 */
+	public void removeUser(int id) {
+		
+		try {
+			this.userDao.deleteUser(id);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+	}
+	
+	public int updateUser(User user) throws SQLException {
+	
+		return this.userDao.updateUser(user);
+	}
+}

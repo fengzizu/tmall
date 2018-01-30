@@ -1,0 +1,24 @@
+package com.kjlink.privilege.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.UserRole;
+
+public interface UserRoleDao {
+	
+	/**
+	 * 删除角色表中角色的同时删除用户表中有该角色的用户
+	 * @return 
+	 * @throws SQLException 
+	 */
+	public void deleteUserRoleByIndex(int index) throws SQLException;
+	
+	/**
+	 * 通过role_id查找对应的user_id
+	 * @param patternName
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<UserRole> selectUserIdByIndex(int index) throws SQLException;
+}

@@ -1,0 +1,67 @@
+package com.kjlink.privilege.dao.impl;
+
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kjlink.privilege.bean.Product;
+import com.kjlink.privilege.dao.ProductDao;
+import com.kjlink.privilege.util.DBContext;
+import com.kjlink.privilege.util.DBUpdate;
+
+public class ProductDaoImpl implements ProductDao {
+	/**
+	 * 从数据库查询最新商品
+	 */
+	@Override
+	public List<Product> findNewProduct() throws SQLException{
+		
+		List<Product> list=new ArrayList<Product>();
+		String sql="select * from product order by shelftime desc limit 4 "; 
+		ResultSet rs=DBUpdate.query(sql);
+		while(rs.next()) {
+			Product product =new Product(rs.getInt("pid"),rs.getString("pname"),rs.getInt("price"),rs.getInt("purchase_price"),rs.getString("pimage"),rs.getString("pdescribe"),rs.getInt("categoryid"),rs.getString("brand"),rs.getDate("shelftime"));
+			list.add(product);
+		}
+		DBContext.close(null, rs, null);
+		return list;
+	}
+
+	/**
+	 * 后台管理商品信息
+	 * 查询所有商品信息
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Product> selectProductsManage() throws SQLException{ 
+		
+		List<Product> productList = new ArrayList<Product>();
+		
+		String sql = "SELECT * FROM product";
+		
+		ResultSet rs = DBUpdate.query(sql);
+		
+		while(rs.next()) {
+			
+			Integer pid = rs.getInt(1);
+			String pname = rs.getString(2);
+			Integer price = rs.getInt(3);
+			Integer purchasePrice = rs.getInt(4);
+			String pimage = rs.getString(5);
+			String pdescribe = rs.getString(6);
+			Integer categoryid = rs.getInt(7);
+			String brand = rs.getString(8);
+			Date shelftime = rs.getDate(9);
+			
+			Product product = new Product(pid, pname, price, purchasePrice, pimage, pdescribe, categoryid, brand, shelftime);
+			
+			productList.add(product);
+		}
+		return productList;
+	}
+	
+	
+	
+}

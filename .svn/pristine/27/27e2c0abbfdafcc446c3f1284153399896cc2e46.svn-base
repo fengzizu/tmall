@@ -1,0 +1,46 @@
+package com.kjlink.web;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.service.UserService;
+import com.kjlink.privilege.service.impl.UserServiceImpl;
+
+/**
+ * Servlet implementation class SelectServlet
+ */
+public class SelectServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+        
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+		UserService userService = new UserServiceImpl();
+		
+		List<User> userList = userService.findAllUser();
+		
+		if(userList != null && userList.size() != 0) {
+			
+			request.setAttribute("userList", userList);
+			request.getRequestDispatcher("/WEB-INF/jsp/select.jsp").forward(request, response);
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 
+		doGet(request, response);
+	}
+
+}

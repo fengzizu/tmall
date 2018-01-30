@@ -1,0 +1,71 @@
+package com.kjlink.privilege.service.impl;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.Role;
+import com.kjlink.privilege.dao.RoleDao;
+import com.kjlink.privilege.dao.impl.RoleDaoImpl;
+import com.kjlink.privilege.service.RoleService;
+import com.kjlink.privilege.util.DBContext;
+
+public class RoleServiceImpl implements RoleService {
+
+	private RoleDao roleDao = new RoleDaoImpl();
+	
+	@Override
+	public List<Role> findRoleByPatternName(String patternName) {
+		
+		try {
+			return this.roleDao.selectRoleByPatternName(patternName);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public void saveRole(List<Role> roleList) {
+		
+			try {
+				
+				/* 开启事务，确保所有操作是一个原子性的操作 */
+				DBContext.beginTransaction();
+				
+				for(Role role : roleList) {
+					
+					int returnVal = this.roleDao.insertRole(role);
+
+					System.out.println("returnVal = " + returnVal);
+					} 
+				
+				/* 提交事务 */
+				DBContext.submitTransaction();
+				
+			}catch (SQLException e) {
+
+				/* 回滚事务 */
+				try {
+					DBContext.rollback();
+				} catch (SQLException e1) {
+
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+		}finally {
+			
+			DBContext.close(DBContext.getConnection(), null, null);
+		}
+	}
+	
+	public void removeRoleByIndex(int index) {
+		
+		try {
+			this.roleDao.deleteRoleByIndex(index);
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,0 +1,32 @@
+package com.kjlink.privilege.dao.impl;
+
+
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kjlink.privilege.bean.Product;
+import com.kjlink.privilege.dao.ProductDao;
+import com.kjlink.privilege.util.DBContext;
+import com.kjlink.privilege.util.DBUpdate;
+
+public class ProductDaoImpl implements ProductDao {
+	/**
+	 * 从数据库查询最新的商品
+	 */
+	@Override
+	public List<Product> findNewProduct() throws SQLException{
+		
+		List<Product> list=new ArrayList<Product>();
+		String sql="select * from product order by shelftime desc limit 4 "; 
+		ResultSet rs=DBUpdate.query(sql);
+		while(rs.next()) {
+			Product product =new Product(rs.getInt("pid"),rs.getString("pname"),rs.getInt("price"),rs.getInt("purchase_price"),rs.getString("pimage"),rs.getString("pdescribe"),rs.getInt("categoryid"),rs.getString("brand"),rs.getDate("shelfdate"));
+			list.add(product);
+		}
+		DBContext.close(null, rs, null);
+		return list;
+	}
+}

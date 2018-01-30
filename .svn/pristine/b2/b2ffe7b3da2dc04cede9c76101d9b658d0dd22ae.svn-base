@@ -1,0 +1,9 @@
+/**
+ * 添加测试数据
+ */
+TRUNCATE TABLE USER;
+INSERT INTO USER(user_name,PASSWORD,gander,birth_place,hobby) VALUES('Trump','1234','male','AnHui','music,joy');
+INSERT INTO USER(user_name,PASSWORD,gander,birth_place,hobby) VALUES('Lisa','2134','female','Beijing','swimming,joy');
+INSERT INTO USER(user_name,PASSWORD,gander,birth_place,hobby) VALUES('Allen','4312','female','AnHui','music,joy');
+INSERT INTO USER(user_name,PASSWORD,gander,birth_place,hobby) VALUES('Franklin','3124','male','AnHui','music,joy,swimming');
+INSERT INTO USER(user_name,PASSWORD,gander,birth_place,hobby) VALUES('liuxy','1234','male','AnHui','music,joy,swimming');

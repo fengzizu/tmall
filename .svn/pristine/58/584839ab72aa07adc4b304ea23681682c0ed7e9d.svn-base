@@ -1,0 +1,30 @@
+package com.kjlink.web;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+import com.kjlink.privilege.util.DBContext;
+
+public class JdbcListerer implements ServletContextListener {
+
+	public JdbcListerer() {
+		
+	}
+	
+	@Override
+	public void contextInitialized(ServletContextEvent sce) {
+		
+		/* 释放数据库连接资源 */
+		DBContext.closeJdbcConn();
+		System.out.println("数据库连接池已经被释放了");
+	}
+
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
+
+		/* 初始化数据库连接池对象 */
+		DBContext.initJdbcConn();
+		System.out.println("数据库连接池对象已经初始化好了");
+	}
+
+}

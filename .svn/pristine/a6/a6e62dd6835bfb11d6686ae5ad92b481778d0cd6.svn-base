@@ -1,0 +1,46 @@
+package com.kjlink.privilege.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.User;
+
+public interface UserDao {
+
+	/**
+	 * 根据输入的用户名关键字进行模糊查询，返回符合的用户集合
+	 * @param patternName
+	 * @return
+	 */
+	public List<User> selectUserByPatternName(String patternName) throws SQLException;
+	
+	public List<User> selectUser() throws SQLException;
+	
+	/**
+	 * 根据输入的用户名，，查找相应的用户
+	 * @return 
+	 */
+	public List<User> selectUserByUserId(int userId) throws SQLException;
+	
+	/**
+	 * 用户登录验证
+	 */
+	public int selectUserPassword(String username,String password) throws SQLException;
+	
+	/**
+	 * 插入新用户
+	 * @param user
+	 * @return
+	 */
+	public int insertUser(User user) throws SQLException;
+	
+	/**
+	 * 根据用户名关键字删除用户
+	 * @throws SQLException 
+	 */
+	public void deleteUserByIndex(int index) throws SQLException;
+	
+	public void deleteUser(int id) throws SQLException;
+	
+	public int updateUser(User user)throws SQLException;
+}

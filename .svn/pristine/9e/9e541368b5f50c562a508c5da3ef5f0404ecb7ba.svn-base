@@ -1,0 +1,12 @@
+package com.kjlink.privilege.service;
+
+import com.kjlink.privilege.bean.Order;
+
+public interface OrderService {
+
+	/**
+	 * 提交到订单表
+	 * @param order
+	 */
+	public void addOrder(Order order);
+}

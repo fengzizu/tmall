@@ -1,0 +1,164 @@
+package com.kjlink.privilege.bean;
+
+import java.util.Date;
+
+public class Product {
+	private Integer pid;
+	private String pname;
+	private Integer price;
+	private Integer purchasePrice;
+	private String pimage;
+	private String pdescribe;
+	private Integer categoryid;
+	private String categoryname;
+	private String brand;
+	private Date shelftime;
+	private  String color;
+	private  String  size;
+	private  String  quality;
+	
+	public Product() {
+		
+	}
+	
+	public Product(Integer pid, String pname, Integer price, String pimage) {
+		
+		this.pid = pid;
+		this.pname = pname;
+		this.price = price;
+		this.pimage = pimage;
+		
+	}
+
+	public Product(Integer pid, String pname, Integer price, Integer purchasePrice, String pimage, String pdescribe,
+			Integer categoryid, String brand, Date shelftime) {
+		super();
+		this.pid = pid;
+		this.pname = pname;
+		this.price = price;
+		this.purchasePrice = purchasePrice;
+		this.pimage = pimage;
+		this.pdescribe = pdescribe;
+		this.categoryid = categoryid;
+		this.brand = brand;
+		this.shelftime = shelftime;
+	}
+
+	public Product(Integer pid, String pname, Integer price, String color, String size, String quality) {
+		super();
+		this.pid = pid;
+		this.pname = pname;
+		this.price = price;
+		this.color = color;
+		this.size = size;
+		this.quality = quality;
+	}
+
+	/**
+	 * 查询所有商品
+	 */
+	public Product(Integer pid, String pname, Integer price, Integer purchasePrice, String pimage, String pdescribe,
+			String categoryname, String brand, Date shelftime, String color, String size, String quality) {
+		super();
+		this.pid = pid;
+		this.pname = pname;
+		this.price = price;//售价
+		this.purchasePrice = purchasePrice;//进价
+		this.pimage = pimage;//图片路径
+		this.pdescribe = pdescribe;//描述
+		this.categoryname = categoryname;//类别名
+		this.brand = brand;//品牌
+		this.shelftime = shelftime;//上架时间
+		this.color = color;
+		this.size = size;
+		this.quality = quality;
+	}
+	
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getQuality() {
+		return quality;
+	}
+
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
+	
+	public Integer getPid() {
+		return pid;
+	}
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+	public Integer getPrice() {
+		return price;
+	}
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+	public Integer getPurchasePrice() {
+		return purchasePrice;
+	}
+	public void setPurchasePrice(Integer purchasePrice) {
+		this.purchasePrice = purchasePrice;
+	}
+	public String getPimage() {
+		return pimage;
+	}
+	public void setPimage(String pimage) {
+		this.pimage = pimage;
+	}
+	public String getPdescribe() {
+		return pdescribe;
+	}
+	public void setPdescribe(String pdescribe) {
+		this.pdescribe = pdescribe;
+	}
+	public Integer getCategoryid() {
+		return categoryid;
+	}
+	public void setCategoryid(Integer categoryid) {
+		this.categoryid = categoryid;
+	}
+	
+	public String getCategoryname() {
+		return categoryname;
+	}
+	
+	public void setCategoryname(String categoryname) {
+		this.categoryname = categoryname;
+	}
+	
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public Date getShelftime() {
+		return shelftime;
+	}
+	public void setShelftime(Date shelftime) {
+		this.shelftime = shelftime;
+	}
+}

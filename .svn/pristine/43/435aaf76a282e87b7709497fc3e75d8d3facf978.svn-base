@@ -1,0 +1,89 @@
+package com.kjlink.privilege.bean;
+
+import java.util.Date;
+
+public class Product {
+	private Integer pid;
+	private String pname;
+	private Integer price;
+	private Integer purchase_price;
+	private String pimage;
+	private String pdescribe;
+	private Integer categoryid;
+	private String brand;
+	private Date shelftime;
+	
+	public Product() {
+		
+	}
+	
+	public Product(Integer pid, String pname, Integer price, Integer purchase_price, String pimage, String pdescribe,
+			Integer categoryid, String brand, Date shelftime) {
+		super();
+		this.pid = pid;
+		this.pname = pname;
+		this.price = price;//售价
+		this.purchase_price = purchase_price;//进价
+		this.pimage = pimage;//图片路径
+		this.pdescribe = pdescribe;//描述
+		this.categoryid = categoryid;//类别id
+		this.brand = brand;//品牌
+		this.shelftime = shelftime;//上架时间
+	}
+	
+	
+	public Integer getPid() {
+		return pid;
+	}
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+	public Integer getPrice() {
+		return price;
+	}
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+	public Integer getPurchase_price() {
+		return purchase_price;
+	}
+	public void setPurchase_price(Integer purchase_price) {
+		this.purchase_price = purchase_price;
+	}
+	public String getPimage() {
+		return pimage;
+	}
+	public void setPimage(String pimage) {
+		this.pimage = pimage;
+	}
+	public String getPdescribe() {
+		return pdescribe;
+	}
+	public void setPdescribe(String pdescribe) {
+		this.pdescribe = pdescribe;
+	}
+	public Integer getCategoryid() {
+		return categoryid;
+	}
+	public void setCategoryid(Integer categoryid) {
+		this.categoryid = categoryid;
+	}
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public Date getShelftime() {
+		return shelftime;
+	}
+	public void setShelftime(Date shelftime) {
+		this.shelftime = shelftime;
+	}
+}

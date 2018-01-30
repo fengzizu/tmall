@@ -1,0 +1,33 @@
+package com.kjlink.privilege.service.impl;
+
+import java.sql.SQLException;
+
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.dao.UserDao;
+import com.kjlink.privilege.dao.impl.UserDaoImpl;
+import com.kjlink.privilege.service.UserService;
+import com.kjlink.privilege.util.DBContext;
+
+public class UserServiceImpl implements UserService {
+
+	private UserDao userDao = new UserDaoImpl();
+
+	/**
+	 * 用户登录验证
+	 */
+	public User findUserPassword(String username, String password) {
+		
+		User user = null;
+		try {
+			user = this.userDao.selectUserPassword(username, password);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}finally {
+			DBContext.close(DBContext.getConnection(), null, null);
+		}
+		return user;
+	}
+	
+}

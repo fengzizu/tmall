@@ -1,0 +1,15 @@
+package com.kjlink.privilege.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.Product;
+
+public interface ProductService {
+	/**
+	 * 从数据库查询最新商品	
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Product> findNewProduct() ;
+}

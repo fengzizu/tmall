@@ -1,0 +1,21 @@
+package com.kjlink.privilege.service;
+
+import java.util.List;
+
+import com.kjlink.privilege.bean.UserRole;
+
+public interface UserRoleService {
+
+	/**
+	 * 删除角色表中角色的同时删除用户表中有该角色的用户
+	 * @param i
+	 */
+	public void removeUserRoleByIndex(int index);
+	
+	/**
+	 * 通过role_id查找对应的user_id
+	 * @param patternName
+	 * @return
+	 */
+	public List<UserRole> findUserIdByIndex(int index);
+}

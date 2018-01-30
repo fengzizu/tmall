@@ -1,0 +1,60 @@
+package com.kjlink.web;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.kjlink.privilege.bean.User;
+import com.kjlink.privilege.controller.UserController;
+
+/**
+ * Servlet implementation class UpdateServlet
+ */
+public class UpdateServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public UpdateServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		//this.doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String name = request.getParameter("name");
+		String password = request.getParameter("password");
+		String gander = request.getParameter("gander");
+		String birthPlace = request.getParameter("birthPlace");
+		String hobby = request.getParameter("hobby");
+		String idTemp = request.getParameter("id");
+		int id = Integer.parseInt(idTemp);
+
+		User user = new User(id, name, password, gander, birthPlace, hobby);
+		UserController userController = new UserController();
+		
+		try {
+			userController.updateUser(user);
+			request.getRequestDispatcher("updateSuccess.jsp").forward(request, response);
+		} catch (SQLException e) {
+			request.getRequestDispatcher("updateFailed.jsp").forward(request, response);
+			e.printStackTrace();
+		}
+	}
+}

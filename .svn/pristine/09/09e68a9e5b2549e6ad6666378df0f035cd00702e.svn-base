@@ -1,0 +1,13 @@
+package com.kjlink.privilege.dao;
+
+import java.sql.SQLException;
+import com.kjlink.privilege.bean.User;
+
+public interface UserDao {
+
+	/**
+	 * 用户登录验证
+	 */
+	public User selectUserPassword(String username,String password) throws SQLException;
+	
+}

@@ -1,0 +1,74 @@
+package com.kjlink.privilege.service.impl;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.kjlink.privilege.bean.UserRole;
+import com.kjlink.privilege.controller.UserRoleController;
+import com.kjlink.privilege.dao.RoleDao;
+import com.kjlink.privilege.dao.UserDao;
+import com.kjlink.privilege.dao.UserRoleDao;
+import com.kjlink.privilege.dao.impl.RoleDaoImpl;
+import com.kjlink.privilege.dao.impl.UserDaoImpl;
+import com.kjlink.privilege.dao.impl.UserRoleDaoImpl;
+import com.kjlink.privilege.service.UserRoleService;
+import com.kjlink.privilege.util.DBContext;
+
+public class UserRoleServiceImpl implements UserRoleService{
+
+	private UserRoleDao userRoleDao = new UserRoleDaoImpl();
+	private UserDao userDao = new UserDaoImpl();
+	private RoleDao roleDao = new RoleDaoImpl();
+	
+	/**
+	 * 删除角色表中角色的同时删除用户表中有该角色的用户
+	 */
+	@SuppressWarnings("static-access")
+	public void removeUserRoleByIndex(int index) {
+	
+		try {
+			/* 开启数据库事务，保证要么全部成功，要么全部失败 */
+			DBContext.beginTransaction();
+			
+			userRoleDao.deleteUserRoleByIndex(index);
+			roleDao.deleteRoleByIndex(index);
+			
+			index = new UserRoleController().getTemp();
+			userDao.deleteUserByIndex(index);
+			
+			/* 提交事务 */
+			DBContext.submitTransaction();
+			
+		} catch (SQLException e) {
+
+			/* 回滚事务 */
+			try {
+				DBContext.rollback();
+			} catch (SQLException e1) {
+				
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}finally {
+			DBContext.close(DBContext.getConnection(), null, null);
+		}
+	}
+	
+	/**
+	 * 通过role_id查找对应的user_id
+	 */
+	public List<UserRole> findUserIdByIndex(int index){
+		
+		try {
+			return this.userRoleDao.selectUserIdByIndex(index);
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return null;
+	}
+}

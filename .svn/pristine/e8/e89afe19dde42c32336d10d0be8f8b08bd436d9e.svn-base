@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//src/com/kjlink/privilege/bean/Product.java=UTF-8
+encoding//src/com/kjlink/privilege/dao/ProductDao.java=UTF-8
+encoding//src/com/kjlink/privilege/dao/impl/ProductDaoImpl.java=UTF-8
+encoding//src/com/kjlink/web/LoginServlet.java=UTF-8
+encoding/<project>=UTF-8

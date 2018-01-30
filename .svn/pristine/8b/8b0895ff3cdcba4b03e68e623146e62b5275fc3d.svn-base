@@ -1,0 +1,31 @@
+package com.kjlink.privilege.service.impl;
+
+import java.sql.SQLException;
+
+import com.kjlink.privilege.bean.Order;
+import com.kjlink.privilege.dao.OrderDao;
+import com.kjlink.privilege.dao.impl.OrderDaoImpl;
+import com.kjlink.privilege.service.OrderService;
+import com.kjlink.privilege.util.DBContext;
+
+public class OrderServiceImpl implements OrderService{
+
+	private OrderDao orderDao = new OrderDaoImpl();
+	
+	/**
+	 * 提交到订单表
+	 * @param order
+	 */
+	public void addOrder(Order order) {
+		
+		try {
+			this.orderDao.insertOrder(order);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}finally {
+			DBContext.close(DBContext.getConnection(), null, null);
+		}
+	}
+}

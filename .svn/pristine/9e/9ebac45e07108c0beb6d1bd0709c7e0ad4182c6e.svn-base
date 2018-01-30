@@ -1,0 +1,23 @@
+package com.kjlink.privilege.service;
+
+import java.util.List;
+
+import com.kjlink.privilege.bean.Role;
+
+public interface RoleService {
+
+	/**
+	 * 根据提供的名称,查找相应的角色
+	 * @param patternName
+	 * @return
+	 */
+	public List<Role> findRoleByPatternName(String patternName);
+	
+	/**
+	 * 保存新的角色信息
+	 * @param roleList
+	 */
+	public void saveRole(List<Role> roleList);
+	
+	public void removeRoleByIndex(int index);
+}
